@@ -1,3 +1,13 @@
+" === ATALHOS DE TECLADO ===
+let mapleader = ","
+let g:mapleader = ","
+
+"easier window navigation
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
 " Inicio da área de plugins
 call plug#begin('~/.vim/plugged')
 "Após abrir o vim, use :PlugInstall para instalar os plugins após adicionar
@@ -27,6 +37,17 @@ Plug 'vim-syntastic/syntastic'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+"Para configurar o Syntastic para carregar erros automaticamente na lista de locais
+let g:syntastic_always_populate_loc_list = 1
+
+"Por padrão, o Syntastic verifica se há erros sempre que você salva o arquivo. Para desativar isso remova o comentário da linha abaixo
+""let g:syntastic_check_on_wq = 0
+
+"Por padrão, o Syntastic usa símbolos de seta para indicar a linha com erro.
+"Para mudar isso, remova os comentários das linhas abaixo
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "⚠"
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
