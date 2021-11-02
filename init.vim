@@ -149,7 +149,8 @@ set softtabstop=4
 set smarttab
 set ignorecase
 
-set paste
+""set paste
+
 set ai
 set ic
 set ve=all
