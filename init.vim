@@ -1,4 +1,18 @@
-" === ATALHOS DE TECLADO ===
+" Para utilizar este arquivo de configuração tanto no vim quanto no neovim ou, até mesmo em outros sistemas operacionais com todos os plugins, é necessário instalar o gerenciador de plugins Vim-Plug.
+ 
+"Para Linux (necessário o curl) - curl -fLo ~/.vim/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+"Para o Linux com Neovim - sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+"Para windows (PowerShell) - iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |` ni $HOME/vimfiles/autoload/plug.vim -Force
+
+"Para o windows com Neovim - iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |` ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+
+"Após instalar o gerenciador de plugin, mova o arquivo de configuração para a pasta correspondente a versão utilizada e rode o comando " 
+"PlugInstall - Para instalar plugins
+"PlugClean - Para desinstalar plugins após ter removido ou comentado a linha correspondente.
+
+"=== ATALHOS DE TECLADO ===
 let mapleader = ","
 let g:mapleader = ","
 
@@ -15,10 +29,6 @@ call plug#begin('~/.vim/plugged')
 "PlugClean[!] Remove unlisted plugins (bang version will clean without prompt)
 "PlugUpgrade Upgrade vim-plug itself
 "PlugStatus	Check the status of plugins
-
-" === INTEGRAÇÃO COM GIT ===
-Plug 'tpope/vim-fugitive'
-let g:airline_enable_branch = 1
 
 " === INTEGRAÇÃO COM GIT ===
 Plug 'tpope/vim-fugitive'
@@ -60,15 +70,32 @@ Plug 'jiangmiao/auto-pairs'
 "fly mode
 ""let g:AutoPairsFlyMode = 1
 
+" === THEMES ===
 Plug 'dracula/vim', { 'as': 'dracula' }
 
+
 " === NERDTree ===
-Plug 'preservim/nerdtree'
-""Plug 'ryanoasis/vim-devicons'
+Plug 'preservim/nerdtree' |
+            \ Plug 'Xuyuanp/nerdtree-git-plugin' |
+            \ Plug 'ryanoasis/vim-devicons'
 
 "mudar as setas padrão
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+
+" Mudar simbolos do netdtree-git-pĺugin
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
 
 "Atalhos de teclado para o NERDTree
 nnoremap <leader>n :NERDTreeFocus<CR>
@@ -89,8 +116,9 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
 
-"Abrir NerdTree por padrão à direita
-let g:NERDTreeWinPos = "right"
+"Abrir NerdTree por padrão à direita ou esquerda
+""let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinPos = "left"
 
 "Abrir o NERDTree existente em cada nova guia.
 autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
@@ -139,13 +167,14 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " === MULTIPLOS CURSORES ===
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " Fim da área de plugins
 call plug#end()
 
-"=== SET LEADER KEY ===
-""set mapleader="\<space>"
+" === SET THEMES ===
+""colorscheme dracula 
+""set background=dark
 
 "Seleciona o tipo de caractere
 set encoding=UTF-8
@@ -192,6 +221,12 @@ set title
 
 " Salva automaticamente a cada edição
 ""set autowrite
+
+" Faz o vsplit a abrir à direita
+set splitright
+
+" Faz o split abrir abaixo
+set splitbelow
 
 " Exibe o casamento de {}, [], ()
 set showmatch
