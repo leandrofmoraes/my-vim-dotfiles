@@ -196,7 +196,7 @@ Plug 'vim-airline/vim-airline-themes'
 "let g:airline_theme = 'night_owl'
 let g:airline_theme = 'dracula'
 let g:airline_detect_spelllang=1
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 
 " Configurações da tabline (top bar)
 let g:airline#extensions#tabline#show_buffers = 1
