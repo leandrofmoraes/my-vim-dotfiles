@@ -14,10 +14,12 @@
 
 "Após instalar o gerenciador de plugin, mova o arquivo de configuração para a pasta correspondente a versão utilizada e rode o comando " 
 "PlugInstall - Para instalar plugins
-"PlugClean - Para desinstalar plugins após ter removido ou comentado a linha correspondente.
+" PlugClean - Para desinstalar plugins após ter removido ou comentado a linha correspondente.
 
 "=== ATALHOS DE TECLADO ===
 " let g:mapleader = ","
+let g:mapleader = " "
+let g:maplocalleader = ','
 
 "Facilitar a navegação entre janelas
 nmap <C-h> <C-w>h
@@ -58,12 +60,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ""syntax on
 Plug 'sheerun/vim-polyglot'
 
+" === VIM-CAPSLOCK
+Plug 'tpope/vim-capslock'
+
 " === SYNTASTIC ===
 Plug 'vim-syntastic/syntastic'
-set statusline=%f\ %h%w%m%r\ %=%(%l,%c%V\ %Y\ %=\ %P%)
+" set statusline=%f\ %h%w%m%r\ %=%(%l,%c%V\ %Y\ %=\ %P%)
 set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 "Por padrão, o Syntastic verifica se há erros sempre que você salva o arquivo. Para desativar isso remova o comentário da linha abaixo
 ""let g:syntastic_check_on_wq = 0
@@ -75,10 +80,12 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 
-let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_checkers = ['check']
+let g:syntastic_c_checkers = ['check']
+
 
 " === AUTO-PAIRS ===
 Plug 'jiangmiao/auto-pairs'
@@ -112,14 +119,12 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn|class))$'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-""let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
+" let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
 let g:ctrlp_show_hidden = 1                                                                   
-let g:ctrlp_use_caching = 1
+" let g:ctrlp_use_caching = 1
 
 " === DEVICONS ===
 Plug 'ryanoasis/vim-devicons' 
-let g:webdevicons_enable_airline_statusline = 1
-let g:webdevicons_enable_airline_tabline = 1
 
 " === NERDTree ===
 Plug 'preservim/nerdtree' |
@@ -188,7 +193,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 " === VIm AIRLINE ===
 Plug 'vim-airline/vim-airline'
 
-set laststatus=1
+set laststatus=2
 " let g:airline_statusline_ontop=0
 
 "Airline Themes
@@ -197,18 +202,29 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = 'dracula'
 let g:airline_detect_spelllang=1
 " let g:airline_powerline_fonts = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_airline_tabline = 1
 
 " Configurações da tabline (top bar)
 let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#buffer_min_count = 2
 let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 "let g:airline#extensions#tabline#formatter = 'default' 
 " let g:airline_symbols_ascii = 1
-"let g:airline_symbols = 1
 "let g:airline_mode_map = {} " see source for the defaults
-
 " let g:Powerline_symbols = 'fancy'
+let g:airline_detect_spelllang=1
+
+"Exibir um caminho curto na linha de status:
+" let g:airline_stl_path_style = 'short'
+
+"Exibir apenas um nome de arquivo na linha de status
+" let g:airline_section_c_only_filename = 1
+
+" ===> Personalizar simbolos da airline <===
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -217,74 +233,95 @@ endif
 if !exists('g:airline_powerline_fonts')
   let g:airline#extensions#tabline#left_sep = ' '
   let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = ''
-  " let g:airline_left_sep          = '▶'  
-  let g:airline_left_alt_sep      = ''
-  " let g:airline_left_alt_sep      = '»'
-" let g:airline_right_sep         = ''
-  let g:airline_right_sep         = '◀'
-" let g:airline_right_alt_sep     = ''
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+
+  let g:airline_left_sep            = ''
+  " ""let g:airline_left_sep        = '▶'
+  "
+  let g:airline_left_alt_sep        = ''
+  "" let g:airline_left_alt_sep     = '»'
+
+  let g:airline_right_sep        = ''
+  " let g:airline_right_sep         = '◀'
+  " let g:airline_right_sep           = "\uE0B6"
+
+  let g:airline_right_alt_sep    = ''
+  " let g:airline_right_alt_sep     = '«'
+  " let g:airline_right_alt_sep       = "uE0B7"
+
+  " " let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
   let g:airline#extensions#readonly#symbol   = '⊘'
   let g:airline#extensions#linecolumn#prefix = '¶'
   let g:airline#extensions#paste#symbol      = 'ρ'
   let g:airline_symbols.linenr    = '␊'
   let g:airline_symbols.branch    = '⎇'
-" let g:airline_symbols.branch    = ''
+  "" let g:airline_symbols.branch    = ''
   let g:airline_symbols.paste     = 'ρ'
   let g:airline_symbols.paste     = 'Þ'
   let g:airline_symbols.paste     = '∥'
   let g:airline_symbols.whitespace = 'Ξ'
-" let g:airline_symbols.maxlinenr = ' ☰ '
-" let g:airline_symbols.dirty     ='⚡'
-" let g:airline_symbols.colnr     = ' :'
+  let g:airline_symbols.maxlinenr = ' ☰ '
+  "" let g:airline_symbols.dirty     = '⚡'
+  let g:airline_symbols.colnr     = ' :'
+  let g:airline_symbols.linenr     = ' :'
 else
   let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
-  " powerline symbols
+    "" powerline symbols
   let g:airline_left_sep           = ''
+    let g:airline_left_sep           = "\uE0B4"    
   let g:airline_left_alt_sep       = ''
   let g:airline_right_sep          = ''
   let g:airline_right_alt_sep      = ''
+    let g:airline_right_sep          = "\uE0B2"
   let g:airline_symbols.readonly   = ''
   let g:airline_symbols.linenr     = ''
-  " let g:airline_symbols.branch     = ''
+  "" let g:airline_symbols.branch   = ''
   let g:airline_symbols.branch    = '⎇'
+  "" let g:airline_symbols.dirty     = '⚡'
+  " " let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
 endif
 
+let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#ctrlp#show_adjacent_modes = 1
 let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
+" let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 " let g:airline#extensions#battery#enabled = 1
-" let g:airline#extensions#capslock#enabled = 1
+let g:airline#extensions#capslock#enabled = 1 "Habilita vim-capslock
+let g:airline#extensions#capslock#symbol = 'CAPS'
 " let g:airline#extensions#branch#empty_message = ''
 let g:airline_enable_branch = 1
 " let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
-" let g:airline_filetype_overrides = {
-      " \ 'coc-explorer':  [ 'CoC Explorer', '' ],
-      " \ 'defx':  ['defx', '%{b:defx.paths[0]}'],
-      " \ 'fugitive': ['fugitive', '%{airline#util#wrap(airline#extensions#branch#get_head(),80)}'],
-      " \ 'gundo': [ 'Gundo', '' ],
-      " \ 'help':  [ 'Help', '%f' ],
-      " \ 'minibufexpl': [ 'MiniBufExplorer', '' ],
-      " \ 'nerdtree': [ get(g:, 'NERDTreeStatusline', 'NERD'), '' ],
-      " \ 'startify': [ 'startify', '' ],
-      " \ 'vim-plug': [ 'Plugins', '' ],
-      " \ 'vimfiler': [ 'vimfiler', '%{vimfiler#get_status_string()}' ],
-      " \ 'vimshell': ['vimshell','%{vimshell#get_status_string()}'],
-      " \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
-      " \ }
+Plug 'ryanoasis/powerline-extra-symbols'
 
+let g:airline_filetype_overrides = {
+      \ 'coc-explorer':  [ 'CoC Explorer', '' ],
+      \ 'defx':  ['defx', '%{b:defx.paths[0]}'],
+      \ 'fugitive': ['fugitive', '%{airline#util#wrap(airline#extensions#branch#get_head(),80)}'],
+      \ 'gundo': [ 'Gundo', '' ],
+      \ 'help':  [ 'Help', '%f' ],
+      \ 'minibufexpl': [ 'MiniBufExplorer', '' ],
+      \ 'nerdtree': [ get(g:, 'NERDTreeStatusline', 'NERD'), '' ],
+      \ 'startify': [ 'startify', '' ],
+      \ 'vim-plug': [ 'Plugins', '' ],
+      \ 'vimfiler': [ 'vimfiler', '%{vimfiler#get_status_string()}' ],
+      \ 'vimshell': ['vimshell','%{vimshell#get_status_string()}'],
+      \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
+      \ }
+
+if has('nvim')
+    highlight VertSplit cterm=NONE guibg=#000819 guifg=#000819 ctermbg=NONE ctermfg=0
+else
+    highlight VertSplit cterm=NONE guibg=#000819 guifg=#000819 ctermbg=NONE ctermfg=0
+    set fillchars=vert:\ , 
+    ""set fillchars+=vert:\|  " add a bar for vertical splits
+endif
 "Colorir a divisória vertical
-""set fillchars=vert:\ , 
 ""set fillchars=vert:\ ,fold:-,diff:-
-highlight VertSplit cterm=NONE guibg=#000819 guifg=#000819 ctermbg=NONE ctermfg=0
 ""set statusline=-        " hide file name in statusline
 ""set fillchars=stl:-     " fill active window's statusline with -
 ""set fillchars+=stlnc:-  " also fill inactive windows
-""set fillchars+=vert:\|  " add a bar for vertical splits
 ""let g:gruvbox_vert_split='bg1'
 
 
@@ -299,15 +336,17 @@ call plug#end()
 ""set background=dark
 
 " set guioptions=egmrti
-set guioptions=mlrb
-set guifont=DroidSansMono\ Nerd\ Font\ Mono:h12
+" set guioptions=mlrb
+" set guifont=DroidSansMono\ Nerd\ Font\ Mono:h12
+" set guifont=DroidSansMono\ Nerd\ Font\ 12
 
 "Seleciona o tipo de caractere
 set encoding=UTF-8
+" set fileencoding=utf-8
+" set bomb
 
 "Ativar a numerarão de linhas
 set number
-""set nu!
 
 "Exibe em qual linha está o cursor
 ""set cursorline
@@ -326,7 +365,8 @@ noremap XX "+x<CR>
 
 " ao teclar a barra de espaço no modo normal, o Vim irá contrair ou expandir o bloco de código do cursor
 " foldlevel é a partir de que nível de indentação o código iniciará contraido
-set foldmethod=syntax
+" set foldmethod=syntax
+set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
 
@@ -336,11 +376,10 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 set smarttab
-set ignorecase
 
 " ativar indentação automática
-" set autoindent
-set autoindent smartindent      " auto/smart indent
+set autoindent
+set smartindent
 set copyindent
 
 ""set paste
@@ -354,7 +393,7 @@ set backspace=indent,eol,start
 autocmd Filetype gitcommit setlocal spell textwidth=72
    
 "Adiciona um menu suspenso de ajuda ao pressionar Tab
-set wildmenu                " Hitting TAB in command mode will
+set wildmenu                
 ""set wildmode=list:longest
 
 "Exige uma confirmação interativa ao sair do vim sem salvar
@@ -368,56 +407,59 @@ set cmdheight=1
 
 "Exibe o nome do arquivo na barra de titulo
 set title
-if has('title') && (has('gui_running') || &title)
-    set titlestring=
-    set titlestring+=%f
-    set titlestring+=%h%m%r%w
-    set titlestring+=\ -\ %{v:progname}
-    set titlestring+=\ -\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}
-endif
+" if has('title') && (has('gui_running') || &title)
+    " set titlestring=
+    " set titlestring+=%f
+    " set titlestring+=%h%m%r%w
+    " set titlestring+=\ -\ %{v:progname}
+    " set titlestring+=\ -\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}
+" endif
 
 " Salva automaticamente a cada edição
 ""set autowrite
 
-" Faz o vsplit a abrir à direita
-set splitright
+" Configura o comportamento de divisão de tela 
+set splitright "Faz o vsplit a abrir à direita 
+set splitbelow "Faz o split abrir abaixo 
 
-" Faz o split abrir abaixo
-set splitbelow
-
-" Exibe o casamento de {}, [], ()
-set showmatch
-        
 "Usar o mouse
 set mouse=a
 set mousemodel=popup
 
-" Feedback de busca
-set incsearch
+" Ir automaticamente para a próxima linha
+set whichwrap+=<,h
+set whichwrap+=>,l
 
-" Destacar resultados da busca
-""set hlsearch
+set scrolloff=10
+
+" Aprimoramento de pesquisa
+set incsearch "Feedback de busca 
+set smartcase
+set ignorecase
+" set hlsearch "Destacar resultados da busca 
+set showmatch  "Exibe o casamento de {}, [], () 
+set nohlsearch
 
 "Por padrão o Vim armazena os ultimos 50 comandos digitados. Para alterar, edite a linha abixo. 
 set history=200
 
-function! NeatFoldText()
-	let line = getline(v:foldstart)
+" function! NeatFoldText()
+	" let line = getline(v:foldstart)
 
-	let nucolwidth = &fdc + &number * &numberwidth
-	let windowwidth = winwidth(0) - nucolwidth - 3
-	let foldedlinecount = v:foldend - v:foldstart
+	" let nucolwidth = &fdc + &number * &numberwidth
+	" let windowwidth = winwidth(0) - nucolwidth - 3
+	" let foldedlinecount = v:foldend - v:foldstart
 
-	" expand tabs into spaces
-	let onetab = strpart('          ', 0, &tabstop)
-	let line = substitute(line, '\t', onetab, 'g')
+    "" expand tabs into spaces
+	" let onetab = strpart('          ', 0, &tabstop)
+	" let line = substitute(line, '\t', onetab, 'g')
 
-	let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-	let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-	return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction
+	" let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+	" let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+	" return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+" endfunction
 
-set foldtext=NeatFoldText()
+" set foldtext=NeatFoldText()
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -429,6 +471,6 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
+"Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
