@@ -53,7 +53,10 @@ noremap <Leader>gd :Gvdiff<CR>
 
 " === AUTO-COMPLETE ===
 Plug 'tpope/vim-surround'
+
 Plug 'mattn/emmet-vim'
+let g:user_emmet_leader_key=','
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Desabilitar coc na inicialização
@@ -188,8 +191,8 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
 
 "Abrir NerdTree por padrão à direita ou esquerda
-""let g:NERDTreeWinPos = "right"
-let g:NERDTreeWinPos = "left"
+let g:NERDTreeWinPos = "right"
+" let g:NERDTreeWinPos = "left"
 
 "Abrir o NERDTree existente em cada nova guia.
 autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
