@@ -1,7 +1,7 @@
  if &compatible
       set nocompatible
   endif
- 
+
 "Para utilizar este arquivo de configuração tanto no vim quanto no neovim ou, até mesmo em outros sistemas operacionais com todos os plugins, é necessário instalar o gerenciador de plugins Vim-Plug.
  
 "Para Linux (necessário o curl) - curl -fLo ~/.vim/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -56,6 +56,25 @@ Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+"Desabilitar coc na inicialização
+let g:coc_start_at_startup=0
+nnoremap <M-e> :CocEnable<cr>
+nnoremap <M-d> :CocDisable<cr>
+
+" Configuração do Coc-snippets
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
 "Colorir palavras chave
 ""syntax on
 Plug 'sheerun/vim-polyglot'
@@ -77,8 +96,8 @@ let g:syntastic_always_populate_loc_list = 1
 
 "Por padrão, o Syntastic usa símbolos de seta para indicar a linha com erro.
 "Para mudar isso, remova os comentários das linhas abaixo
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "⚠"
+" let g:syntastic_error_symbol = "✗"
+" let g:syntastic_warning_symbol = "⚠"
 
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -248,21 +267,21 @@ if !exists('g:airline_powerline_fonts')
   " let g:airline_right_alt_sep     = '«'
   " let g:airline_right_alt_sep       = "uE0B7"
 
-  " " let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
   let g:airline#extensions#readonly#symbol   = '⊘'
   let g:airline#extensions#linecolumn#prefix = '¶'
   let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  "" let g:airline_symbols.branch    = ''
+  " let g:airline_symbols.linenr    = '␊'
+  " let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.branch    = ''
   let g:airline_symbols.paste     = 'ρ'
   let g:airline_symbols.paste     = 'Þ'
   let g:airline_symbols.paste     = '∥'
   let g:airline_symbols.whitespace = 'Ξ'
   let g:airline_symbols.maxlinenr = ' ☰ '
-  "" let g:airline_symbols.dirty     = '⚡'
+  " let g:airline_symbols.dirty     = '⚡'
   let g:airline_symbols.colnr     = ' :'
-  let g:airline_symbols.linenr     = ' :'
+  " let g:airline_symbols.linenr     = ' :'
 else
   let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
@@ -274,9 +293,10 @@ else
   let g:airline_right_alt_sep      = ''
     let g:airline_right_sep          = "\uE0B2"
   let g:airline_symbols.readonly   = ''
-  let g:airline_symbols.linenr     = ''
+  " let g:airline_symbols.linenr     = ''
   "" let g:airline_symbols.branch   = ''
   let g:airline_symbols.branch    = '⎇'
+  "" let g:airline_symbols.dirty     = '⚡'
   "" let g:airline_symbols.dirty     = '⚡'
   " " let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
 endif
