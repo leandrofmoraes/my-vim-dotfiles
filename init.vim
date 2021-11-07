@@ -55,7 +55,13 @@ noremap <Leader>gd :Gvdiff<CR>
 Plug 'tpope/vim-surround'
 
 Plug 'mattn/emmet-vim'
-let g:user_emmet_leader_key=','
+" let g:user_emmet_leader_key=','   ", ,"
+let g:user_emmet_leader_key='<C-Z>' "Ctrl + z + ,"
+
+
+" Habilita o emmet somente para arquivos HTML e CSS
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
