@@ -16,6 +16,11 @@
 "PlugInstall - Para instalar plugins
 " PlugClean - Para desinstalar plugins após ter removido ou comentado a linha correspondente.
 
+" ===ALIASES DE COMANDO ===
+":command <AliasName> <string of command to be aliased>
+" :command :Cce :CocEnable
+" :command :Ccd :CocDisable
+
 "=== ATALHOS DE TECLADO ===
 " let g:mapleader = ","
 let g:mapleader = " "
@@ -140,6 +145,8 @@ let g:indentLine_faster = 1
 
 " === THEMES ===
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'overcache/NeoSolarized'
+
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'tomasiser/vim-code-dark'
 
@@ -369,10 +376,10 @@ call plug#end()
 " set guifont=DroidSansMono\ Nerd\ Font\ Mono:h12
 " set guifont=DroidSansMono\ Nerd\ Font\ 12
 
-"Seleciona o tipo de caractere
-set encoding=UTF-8
-" set fileencoding=utf-8
-" set bomb
+"Seleciona o tipo codificação
+set encoding=UTF-8 "Visualização na codificação
+set fileencoding=utf-8 "Salvar na codificação
+"set bomb
 
 "Ativar a numerarão de linhas
 set number
@@ -402,8 +409,13 @@ nnoremap <space> za
 "Configura a quantidade de espaço de tabulação
 set tabstop=4
 set shiftwidth=4
-set softtabstop=4
-set expandtab
+
+"Backspace respeitar indentação
+set softtabstop=4 
+
+"Trocar TAB por espaços 
+set expandtab 
+
 set smarttab
 
 " ativar indentação automática
