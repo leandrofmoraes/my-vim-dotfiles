@@ -2,6 +2,13 @@
       set nocompatible
   endif
 
+" Install Plug if not already loaded
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC 
+endif
+
 "Para utilizar este arquivo de configuração tanto no vim quanto no neovim ou, até mesmo em outros sistemas operacionais com todos os plugins, é necessário instalar o gerenciador de plugins Vim-Plug.
  
 "Para Linux (necessário o curl) - curl -fLo ~/.vim/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -45,6 +52,9 @@ call plug#begin('~/.vim/plugged')
 "PlugUpgrade Upgrade vim-plug itself
 "PlugStatus	Check the status of plugins
 
+" === BUFEXPLORER ===
+" Plug 'jlanzarotta/bufexplorer'
+
 " === INTEGRAÇÃO COM GIT ===
 Plug 'tpope/vim-fugitive'
 noremap <Leader>gs :Gstatus<CR>
@@ -57,12 +67,11 @@ noremap <Leader>gll :Gpull<CR>
 noremap <Leader>gd :Gvdiff<CR>
 
 " === AUTO-COMPLETE ===
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'     "Selecione o texto desejado, pressione shift + s e informe qual par de caractere deseja usar"
 
 Plug 'mattn/emmet-vim'
 " let g:user_emmet_leader_key=','   ", ,"
 let g:user_emmet_leader_key='<C-Z>' "Ctrl + z + ,"
-
 
 " Habilita o emmet somente para arquivos HTML e CSS
 let g:user_emmet_install_global = 0
@@ -92,6 +101,9 @@ let g:coc_snippet_next = '<tab>'
 "Colorir palavras chave
 ""syntax on
 Plug 'sheerun/vim-polyglot'
+
+" === VIM-TMUX-NAVIGATOR ===
+Plug 'christoomey/vim-tmux-navigator'
 
 " === VIM-CAPSLOCK
 Plug 'tpope/vim-capslock'
@@ -150,13 +162,19 @@ Plug 'overcache/NeoSolarized'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'tomasiser/vim-code-dark'
 
-" === Ctrl + P ===
-Plug 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn|class))$'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" === Ctrl + P === "Desinstalado"
+"Plug 'ctrlpvim/ctrlp.vim'
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn|class))$'
+" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
-let g:ctrlp_show_hidden = 1                                                                   
+" let g:ctrlp_show_hidden = 1                                                                   
 " let g:ctrlp_use_caching = 1
+
+" === FZF ===
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+nnoremap <c-p> :Files<cr>
 
 " === DEVICONS ===
 Plug 'ryanoasis/vim-devicons' 
@@ -241,9 +259,10 @@ let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_airline_tabline = 1
 
 " Configurações da tabline (top bar)
-let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#buffer_min_count = 2
 let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#splits_min_count = 2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -345,6 +364,10 @@ let g:airline_filetype_overrides = {
       \ 'vimshell': ['vimshell','%{vimshell#get_status_string()}'],
       \ 'vaffle' : [ 'Vaffle', '%{b:vaffle.dir}' ],
       \ }
+
+" === TMUXLINE ===
+" Plug 'edkolev/tmuxline.vim'
+
 
 if has('nvim')
     highlight VertSplit cterm=NONE guibg=#000819 guifg=#000819 ctermbg=NONE ctermfg=0
